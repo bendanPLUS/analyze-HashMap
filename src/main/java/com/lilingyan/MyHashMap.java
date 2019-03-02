@@ -24,11 +24,17 @@ public class MyHashMap<K,V> {
     static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16
 
     /**
-     * hash表的负载因子
+     * HashMap整个容量的负载因子
      * 默认0.75
-     * 超过就会扩容
      */
     final float loadFactor;
+    /**
+     * The next size value at which to resize (capacity * load factor).
+     * 整个HashMap容量阈值
+     * 默认是loadFactor*hash表长 也可以loadFactor*用户自己传一个值
+     * 最终会变成一个最接近2^n的值(使用@tableSizeFor()方法计算的)
+     */
+    int threshold;
 
     /**
      * 链表节点转换红黑树节点的阈值, 9个节点转
@@ -45,11 +51,6 @@ public class MyHashMap<K,V> {
      */
     static final int MIN_TREEIFY_CAPACITY = 64;
 
-    /**
-     * The next size value at which to resize (capacity * load factor).
-     * 使用@tableSizeFor()方法计算的
-     */
-    int threshold;
     /**
      * 最大初始hash表容量，2^30
      * 因为int只有4字节32位，要表示正负，所以正数才31位
